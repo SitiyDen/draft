@@ -1,0 +1,323 @@
+.captainsBoard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.captainCard {
+  background: linear-gradient(135deg, #232136 60%, #393552 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(35, 33, 54, 0.18);
+  padding: 18px 12px 16px 12px;
+  min-width: 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.captainCardShuffle {
+  animation: fly-shuffle 10s cubic-bezier(0.4, 1.6, 0.4, 1);
+  z-index: 100;
+}
+
+@keyframes fly-shuffle {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  10% {
+    transform: translateY(-40vh) scale(1.1) rotate(10deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(30vh) scale(1.2) rotate(-10deg);
+    opacity: 0.7;
+  }
+  80% {
+    transform: translateY(-10vh) scale(1.05) rotate(5deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.captainCardFlying {
+  z-index: 1000;
+  pointer-events: none;
+  position: absolute;
+  animation: fly-captain-gather 2.5s cubic-bezier(0.4, 1.6, 0.4, 1),
+    fly-captain-spread 2.5s 2.5s cubic-bezier(0.4, 1.6, 0.4, 1);
+  --gather-x: 0px;
+  --gather-y: 0px;
+  --spread-x: 0px;
+  --spread-y: 0px;
+}
+
+@keyframes fly-captain-gather {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--gather-x), var(--gather-y)) scale(0.7) rotate(0deg);
+    opacity: 0.85;
+  }
+}
+
+@keyframes fly-captain-spread {
+  0% {
+    transform: translate(var(--gather-x), var(--gather-y)) scale(0.7) rotate(0deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(var(--spread-x), var(--spread-y)) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.captainName {
+  font-size: 1.45em;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+  text-align: center;
+  background: rgba(162, 89, 247, 0.1); /* лёгкое выделение */
+  border-radius: 10px;
+  padding: 8px 18px 8px 18px;
+  box-shadow: 0 2px 8px 0 #a259f722;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.captainPhotoWrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  background: #181c24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captainPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+.captainStats {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  margin-top: 8px;
+  color: #a259f7;
+  font-size: 1em;
+  font-weight: 500;
+  justify-content: center;
+}
+
+.captainStatsBottom {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  margin: 12px 0 10px 0;
+  justify-content: center;
+}
+
+.captainStatsBottom span {
+  background: linear-gradient(90deg, #232136 60%, #393552 100%);
+  color: #fff;
+  font-size: 1.08em;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 6px 16px;
+  box-shadow: 0 1px 6px 0 #a259f722;
+  display: inline-block;
+}
+
+.captainStatsBottom span:first-child {
+  background: linear-gradient(90deg, #ffd86b 60%, #ff9900 100%);
+  color: #232136;
+}
+
+.captainStatsBottom span:last-child {
+  background: linear-gradient(90deg, #00c9a7 60%, #59f7a2 100%);
+  color: #232136;
+}
+
+.teamList {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  width: 100%;
+  justify-content: center;
+}
+
+.emptyCard {
+  width: 80px;
+  height: 120px;
+  background: #232136;
+  border-radius: 14px;
+  border: 1px dashed #3d3759;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6c648b;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.plus {
+  font-size: 2em;
+  margin-bottom: 4px;
+  color: #a259f7;
+}
+
+.label {
+  font-size: 0.95em;
+  color: #6c648b;
+}
+
+.teamListMini {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.teamMiniCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  min-height: 100px;
+  background: #232136;
+  border-radius: 12px;
+  border: 1px dashed #3d3759;
+  padding: 8px 4px 6px 4px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+}
+
+.teamMiniPhoto {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #181c24;
+  margin-bottom: 6px;
+  border: 2px solid #a259f7;
+}
+
+.emptyPhoto {
+  background: #2d2a3e;
+  border: 2px dashed #3d3759;
+}
+
+.teamMiniName {
+  color: #d1c7e6;
+  font-size: 0.92em;
+  text-align: center;
+  word-break: break-word;
+}
+
+.commandPanel {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 32px;
+}
+
+.shuffleBtn {
+  background: #a259f7;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 1.08em;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 #a259f722;
+  transition: background 0.2s, color 0.2s;
+}
+
+.shuffleBtn:hover {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.captainNumber {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ffd86b;
+  color: #232136;
+  font-size: 1.1em;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 4px 12px;
+  box-shadow: 0 1px 6px 0 #ffd86b44;
+  z-index: 2;
+}
+
+.captainCountry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 1.08em;
+  font-weight: 600;
+  color: #ffd86b;
+  background: rgba(255, 216, 107, 0.1);
+  border-radius: 8px;
+  padding: 4px 12px;
+  box-shadow: 0 1px 6px 0 #ffd86b22;
+}
+
+.captainFlag {
+  font-size: 1.25em;
+  margin-right: 2px;
+}
+
+.captainCountryName {
+  color: #ffd86b;
+  font-size: 1.08em;
+  font-weight: 600;
+}
+
+.freePlayersInfo {
+  color: #a259f7;
+  font-size: 1.08em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(162, 89, 247, 0.08);
+  border-radius: 8px;
+  padding: 8px 18px;
+  box-shadow: 0 1px 6px 0 #a259f722;
+  display: flex;
+  align-items: center;
+}
+
+.freePlayersInfo span {
+  font-size: 1.15em;
+  font-weight: 800;
+  margin-left: 6px;
+  color: #fff;
+}

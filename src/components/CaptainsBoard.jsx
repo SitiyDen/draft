@@ -29,8 +29,10 @@ const CaptainCard = ({ captain, onClick, isFlipped }) => (
   >
     <div className={styles.captainCardInner}>
       <div className={styles.captainCardFront}>
-        <div className={styles.captainNumber}>#{captain.number}</div>
-        <div className={styles.captainName}>{captain.name}</div>
+        <div className={styles.captainHeader}>
+          <div className={styles.captainNumber}>#{captain.number}</div>
+          <div className={styles.captainName}>{captain.name}</div>
+        </div>
         <div className={styles.captainCountry}>
           <span className={styles.captainFlag}>{captain.country?.flag}</span>
           <span className={styles.captainCountryName}>{captain.country?.name}</span>
@@ -60,6 +62,14 @@ const CaptainCard = ({ captain, onClick, isFlipped }) => (
 const CaptainsBoard = ({ captains, onCaptainClick, onShuffle, shuffleAnimation, boardRef, freePlayersCount }) => {
   const flyingLayerRef = useRef();
   const [flippedIdx, setFlippedIdx] = useState(null);
+
+  const handleCardClick = (captain, idx) => {
+    setFlippedIdx(idx);
+    setTimeout(() => {
+      setFlippedIdx(null);
+      onCaptainClick && onCaptainClick(captain);
+    }, 700); // длительность flip
+  };
 
   useEffect(() => {
     if (!shuffleAnimation || !boardRef?.current) return;
@@ -100,26 +110,17 @@ const CaptainsBoard = ({ captains, onCaptainClick, onShuffle, shuffleAnimation, 
     }, 5000);
   }, [shuffleAnimation, boardRef]);
 
-  const handleCardClick = (captain, idx) => {
-    setFlippedIdx(idx);
-    setTimeout(() => {
-      setFlippedIdx(null);
-      onCaptainClick && onCaptainClick(captain);
-    }, 700); // длительность flip
-  };
-
   return (
     <div style={{ position: 'relative' }}>
       <CommandPanel onShuffle={onShuffle} freePlayersCount={freePlayersCount} />
       <div className={styles.captainsBoard} ref={boardRef}>
         {captains.map((captain, idx) => (
-          <div key={idx} className={styles.captainCard}>
-            <CaptainCard
-              captain={captain}
-              onClick={() => handleCardClick(captain, idx)}
-              isFlipped={flippedIdx === idx}
-            />
-          </div>
+          <CaptainCard
+            key={idx}
+            captain={captain}
+            onClick={() => handleCardClick(captain, idx)}
+            isFlipped={flippedIdx === idx}
+          />
         ))}
       </div>
       <div ref={flyingLayerRef} style={{ position: 'fixed', left: 0, top: 0, width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 9999 }} />

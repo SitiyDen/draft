@@ -46,7 +46,7 @@ const initialCaptains = [
     photoUrl: 'https://sun9-43.userapi.com/impg/cHucDeX9EOAqDY0369Z6S7CPCLlEDFMapxV-yQ/nLAOc7CqLwg.jpg?size=1792x828&quality=95&sign=ee9de162f26f3b6ca87ffcb82167d3bd&type=album',
     elo: 2400,
     gg: 130,
-    country: { name: 'Казахстан', flag: '🇰🇿' },
+    country: { name: 'США', flag: '🇺🇸' },
     team: [null, null, null],
   },
   {
@@ -64,7 +64,7 @@ const initialCaptains = [
     photoUrl: 'https://sun9-15.userapi.com/impg/EosR-DOiQtsQrxvX9pgj5h_WRCKOCJ7_Cwa86g/TkMuhoilSpg.jpg?size=898x1280&quality=95&sign=6c030a841103161ca39d2fd46bce9453&type=album',
     elo: 2400,
     gg: 130,
-    country: { name: 'Казахстан', flag: '🇰🇿' },
+    country: { name: 'Италия', flag: '🇮🇹' },
     team: [null, null, null],
   },
   {
@@ -73,7 +73,7 @@ const initialCaptains = [
     photoUrl: 'https://sun9-48.userapi.com/impg/0ccXJIc1bj6QD4KDtkT1orn4DvFjfAR4UrVWfQ/E1CPjxYcfDU.jpg?size=1920x1220&quality=95&sign=6a9b32cff1a5f6183ee52439f66d60c7&type=album',
     elo: 2400,
     gg: 130,
-    country: { name: 'Казахстан', flag: '🇰🇿' },
+    country: { name: 'Франция', flag: '🇫🇷' },
     team: [null, null, null],
   },
 ];

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styles from './CaptainsBoard.module.css';
+import logo512 from '../logo512.png';
 
 const CommandPanel = ({ onShuffle, freePlayersCount }) => (
   <div className={styles.commandPanel}>
@@ -21,45 +22,55 @@ const TeamMiniCard = ({ player }) => (
   </div>
 );
 
-const CaptainCard = ({ captain, onClick, isFlipped }) => (
-  <div
-    className={styles.captainCard + (isFlipped ? ' ' + styles.captainCardFlipped : '')}
-    onClick={onClick}
-    style={{ cursor: onClick ? 'pointer' : 'default', perspective: '800px' }}
-  >
-    <div className={styles.captainCardInner}>
-      <div className={styles.captainCardFront}>
-        <div className={styles.captainHeader}>
-          <div className={styles.captainNumber}>#{captain.number}</div>
-          <div className={styles.captainName}>{captain.name}</div>
-        </div>
-        <div className={styles.captainCountry}>
-          <span className={styles.captainFlag}>{captain.country?.flag}</span>
-          <span className={styles.captainCountryName}>{captain.country?.name}</span>
-        </div>
-        <div className={styles.captainPhotoWrapper}>
-          <img src={captain.photoUrl} alt={captain.name} className={styles.captainPhoto} />
-        </div>
-        <div className={styles.captainStatsBottom}>
-          <span>ELO: <b>{captain.elo}</b></span>
-          <span>GG: <b>{captain.gg}</b></span>
-        </div>
-        <div className={styles.teamListMini}>
-          {[0, 1, 2].map((i) =>
-            captain.team && captain.team[i] ? (
-              <TeamMiniCard key={i} player={captain.team[i]} />
-            ) : (
-              <TeamMiniCard key={i} player={null} />
-            )
-          )}
-        </div>
-      </div>
-      <div className={styles.captainCardBack}></div>
-    </div>
-  </div>
-);
+const CaptainCard = ({ captain, onClick, isFlipped, onCountryChange }) => {
+  // Получаем команду капитана из player1/player2/player3
+  const teamPlayers = [captain.player1, captain.player2, captain.player3].filter(Boolean);
+  const totalElo = teamPlayers.reduce((acc, p) => acc + (Number(p?.elo) || 0), 0) + (Number(captain.elo) || 0);
+  const count = teamPlayers.length + 1;
+  const avgElo = count > 0 ? Math.round(totalElo / count) : 0;
+  const totalGG = teamPlayers.reduce((acc, p) => acc + (Number(p?.gg) !== undefined ? Number(p.gg) : (Number(p?.points) || 0)), 0) + (Number(captain.gg) !== undefined ? Number(captain.gg) : (Number(captain.points) || 0));
 
-const CaptainsBoard = ({ captains, onCaptainClick, onShuffle, shuffleAnimation, boardRef, freePlayersCount }) => {
+  return (
+    <div
+      className={styles.captainCard + (isFlipped ? ' ' + styles.captainCardFlipped : '')}
+      onClick={onClick}
+      style={{ cursor: onClick ? 'pointer' : 'default', perspective: '800px' }}
+    >
+      <div className={styles.captainCardInner}>
+        <div className={styles.captainCardFront}>
+          <div className={styles.captainHeader}>
+            <div className={styles.captainNumber}>#{captain.number}</div>
+            <div className={styles.captainName}>{captain.name}</div>
+          </div>
+          <div className={styles.captainCountry}>
+            <span className={styles.captainFlag}>{captain.country?.flag}</span>
+            <span className={styles.captainCountryName}>{captain.country?.name}</span>
+          </div>
+          <div className={styles.captainPhotoWrapper}>
+            <img src={captain.photoUrl} alt={captain.name} className={styles.captainPhoto} />
+          </div>
+          <div className={styles.captainStatsBottom}>
+            <span>ELO: <b>{avgElo}</b></span>
+            <span>GG: <b>{totalGG}</b></span>
+          </div>
+          <div className={styles.teamListMini}>
+            {[0, 1, 2].map((i) =>
+              captain[`player${i+1}`] ? (
+                <TeamMiniCard key={i} player={captain[`player${i+1}`]} />
+              ) : (
+                <TeamMiniCard key={i} player={null} />
+              )
+            )}
+          </div>
+        </div>
+        <div className={styles.captainCardBack}></div>
+      </div>
+    </div>
+  );
+};
+
+const CaptainsBoard = ({captains, onCaptainClick, onShuffle, shuffleAnimation, boardRef, freePlayersCount, onCountryChange }) => {
+
   const flyingLayerRef = useRef();
   const [flippedIdx, setFlippedIdx] = useState(null);
 
@@ -112,14 +123,17 @@ const CaptainsBoard = ({ captains, onCaptainClick, onShuffle, shuffleAnimation, 
 
   return (
     <div style={{ position: 'relative' }}>
+      <img src={logo512} alt="Logo" className={styles.logoTopLeft} />
       <CommandPanel onShuffle={onShuffle} freePlayersCount={freePlayersCount} />
       <div className={styles.captainsBoard} ref={boardRef}>
-        {captains.map((captain, idx) => (
+        
+        {Array.isArray(captains) && captains.map((captain, idx) => (
           <CaptainCard
             key={idx}
             captain={captain}
             onClick={() => handleCardClick(captain, idx)}
             isFlipped={flippedIdx === idx}
+            onCountryChange={country => onCountryChange && onCountryChange(idx, country)}
           />
         ))}
       </div>

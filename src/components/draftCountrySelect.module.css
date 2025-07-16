@@ -1,0 +1,19 @@
+.countrySelect {
+  margin-top: 18px;
+  background: #232136;
+  color: #ffd86b;
+  border: 1px solid #ffd86b44;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 1em;
+  font-weight: 600;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 6px 0 #ffd86b22;
+  min-width: 170px;
+  align-self: flex-end;
+}
+.countrySelect:focus {
+  border: 1.5px solid #ffd86b;
+  box-shadow: 0 2px 12px 0 #ffd86b33;
+}

@@ -1,11 +1,12 @@
 .captainsBoard {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px 36px;
+  justify-items: center;
+  align-items: stretch;
   margin-top: 32px;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .captainCard {
@@ -19,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+  transition: background 0.16s, transform 0.16s;
 }
 
 .captainCardShuffle {
@@ -171,8 +172,9 @@
 }
 
 .captainStatsBottom span:first-child {
-  background: linear-gradient(90deg, #ffd86b 60%, #ff9900 100%);
-  color: #232136;
+  background: linear-gradient(90deg, rgba(162, 89, 247, 0.18) 60%, rgba(162, 89, 247, 0.32) 100%);
+  color: #ffd86b;
+  font-weight: 800;
 }
 
 .captainStatsBottom span:last-child {
@@ -261,11 +263,15 @@
 
 .commandPanel {
   width: 100%;
+  max-width: 100vw;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 18px;
   gap: 32px;
+  box-sizing: border-box;
+  overflow-x: auto;
+  padding-right: 24px;
 }
 
 .shuffleBtn {
@@ -332,8 +338,18 @@
 }
 
 .captainCard:hover {
-  box-shadow: 0 8px 32px 0 #a259f744, 0 4px 24px rgba(35, 33, 54, 0.18);
   background: linear-gradient(135deg, #2d2540 60%, #4a3e6b 100%);
-  transform: translateY(-4px) scale(1.03);
-  z-index: 2;
+  transform: scale(1.018);
+}
+
+.logoTopLeft {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  width: 88px;
+  height: 88px;
+  z-index: 1200;
+  background: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(35, 33, 54, 0.1);
 }

@@ -152,3 +152,133 @@
   transform: rotateY(180deg);
   z-index: 1;
 }
+
+.cardLarge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #232136 60%, #393552 100%);
+  border-radius: 36px;
+  box-shadow: 0 16px 64px rgba(35, 33, 54, 0.65);
+  padding: 56px 64px 56px 64px;
+  width: 900px;
+  max-width: 99vw;
+  min-width: 380px;
+  box-sizing: border-box;
+  border: 4px solid #a259f7;
+  position: relative;
+  z-index: 10001;
+  gap: 0;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  background: rgba(162, 89, 247, 0.18);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 2.2em;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 2px 8px 0 #a259f744;
+  transition: background 0.18s, color 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.closeBtn:hover {
+  background: #ff4d4f;
+  color: #fff;
+}
+
+.nameLarge {
+  font-size: 2.5em;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 32px 0;
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 100%;
+}
+
+.largeContentRow {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  justify-content: center;
+  gap: 0;
+}
+
+.photoLarge {
+  width: 320px;
+  height: 500px;
+  border-radius: 28px 0 0 28px;
+  object-fit: cover;
+  background: #181c24;
+  box-shadow: 0 4px 24px 0 #23213677;
+  display: block;
+}
+
+.largeStatsBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 28px;
+  flex: 1;
+  min-width: 320px;
+  max-width: 480px;
+  padding: 24px 0 24px 48px;
+}
+
+.largeStat {
+  font-size: 1.45em;
+  color: #ffd86b;
+  background: rgba(162, 89, 247, 0.13);
+  border-radius: 14px;
+  padding: 16px 16px;
+  margin-bottom: 6px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 420px;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.largeStat span {
+  color: #a259f7;
+  font-weight: 800;
+  min-width: 140px;
+  display: inline-block;
+  font-size: 1.12em;
+}
+
+.selectBtn {
+  margin: 48px auto 0 auto;
+  width: 60%;
+  background: #a259f7;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 24px 64px;
+  font-size: 1.32em;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 12px 0 #a259f744;
+  transition: background 0.2s, color 0.2s;
+  display: block;
+}
+
+.selectBtn:hover {
+  background: #7c3aed;
+}

@@ -1,13 +1,11 @@
-.draftBoard {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.backBtnRow {
   width: 100vw;
-  min-height: 100vh;
-  background: #181c24;
-  padding: 32px 0 0 32px;
-  box-sizing: border-box;
-  overflow: visible !important; /* Убедиться, что нет overflow, чтобы sticky работал по всей странице */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 210;
+  padding: 12px 0 0 32px;
+  box-shadow: 0 2px 8px 0 rgba(35,33,54,0.08);
 }
 
 .captainRow {
@@ -19,11 +17,27 @@
   margin-bottom: 40px;
   gap: 32px;
   position: fixed;
-  top: 0;
+  top: 56px; /* сдвиг вниз на высоту кнопки */
   z-index: 200;
-  background: #181c24;
+  /* backdrop-filter: blur(8px) saturate(120%); */
+  background: #060a26; /* делаем фон полностью непрозрачным */
   padding: 16px 0 16px 32px;
-  box-shadow: 0 2px 16px 0 rgba(35,33,54,0.12);
+  box-shadow: 0 2px 16px 0 rgba(35,33,54,0.92);
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.draftBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100vw;
+  min-height: 100vh;
+  
+  padding: 60px 0 0 32px; /* увеличен отступ сверху: 56px кнопка + 32px капитаны */
+  box-sizing: border-box;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
 }
 
 .captainSection {
@@ -37,6 +51,7 @@
   gap: 24px;
   align-items: flex-start;
   min-height: 220px;
+  
 }
 
 .teamStats {
@@ -52,6 +67,48 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 18px;
+}
+
+.teamStatsWrapper {
+  min-width: 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.countryCardWrapper {
+  min-width: 240px;
+  max-width: 320px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #232136 60%, #393552 100%);
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(35, 33, 54, 0.18);
+  margin-left: 32px;
+  margin-right: 16px;
+}
+
+.countrySelect {
+  width: 90%;
+  height: 64px;
+  font-size: 2em;
+  font-weight: 700;
+  background: #232136;
+  color: #ffd86b;
+  border: 2px solid #ffd86b44;
+  border-radius: 14px;
+  padding: 0 24px;
+  outline: none;
+  box-shadow: 0 1px 6px 0 #ffd86b22;
+  transition: border 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+.countrySelect:focus {
+  border: 2px solid #ffd86b;
+  box-shadow: 0 2px 12px 0 #ffd86b33;
 }
 
 .teamStats h4 {
@@ -133,7 +190,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 220px; /* отступ под фиксированный блок */
+  margin-top: 270px; /* отступ под фиксированный блок */
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .listTitle {
@@ -145,22 +204,29 @@
 }
 
 .playerList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px 28px;
   width: 100%;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: stretch;
+  justify-items: center;
+  margin-top: 12px;
+  padding-bottom: 48px;
 }
-
 .playerWrapper {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  width: calc(16.66% - 12px); /* 6 карточек в строке */
-  max-width: calc(16.66% - 12px);
-  min-width: 120px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 320px;
   box-sizing: border-box;
+  transition: transform 0.18s;
+}
+.playerWrapper:hover {
+  transform: translateY(-8px) scale(1.04);
+  z-index: 2;
 }
 
 .sortButtons {
@@ -244,18 +310,82 @@
   top: 16px;
   left: 32px;
   z-index: 300;
-  background: #232136;
-  color: #a259f7;
-  border: 1px solid #3d3759;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 1.08em;
-  font-weight: 600;
+  background: none;
+  border: none;
+  color: #b3baff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-right: 24px;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.15s;
 }
 
 .backBtn:hover {
-  background: #393552;
+  background: #232136;
+}
+
+.playerModalOverlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(24, 28, 36, 0.85);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+
+.playerModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  animation: scaleIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { transform: scale(0.92); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.teamPlayerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removePlayerBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: rgba(162, 89, 247, 0.92);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5em;
+  font-weight: 900;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 2px 8px 0 #a259f744;
+  transition: background 0.18s, color 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.removePlayerBtn:hover {
+  background: #ff4d4f;
   color: #fff;
 }

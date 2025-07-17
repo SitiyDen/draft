@@ -27,6 +27,7 @@
   border: 2px solid #3d3759;
   margin-bottom: 14px;
   background: #181c24;
+  object-position: top; /* вот эта строка ключевая */
 }
 
 .info {

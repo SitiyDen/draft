@@ -10,6 +10,10 @@ const App = () => {
 
   // Используем только один массив капитанов
   const [captains, setCaptains] = useState([]);
+
+    console.log("📥 Загружены капитаны из Google:", googleCaptains);
+  console.log("📥 Загружены игроки из Google:", players);
+
   const [selectedCaptain, setSelectedCaptain] = useState(null);
   const [shuffleAnimation, setShuffleAnimation] = useState(false);
   const [shuffleOrder, setShuffleOrder] = useState([]); // для анимации
@@ -18,7 +22,24 @@ const App = () => {
 
   // Синхронизация googleCaptains -> captains при загрузке
   React.useEffect(() => {
-    setCaptains(googleCaptains);
+     if (!googleCaptains.length || !players.length) return;
+
+  // Создаём словарь: gomafiaId => игрок
+  const playersById = Object.fromEntries(players.map(p => [p.gomafiaId, p]));
+
+  // Обогащаем капитанов объектами игроков по ID
+  const enrichedCaptains = googleCaptains.map(captain => ({
+    ...captain,
+    player1: playersById[captain.player1] || null,
+    player2: playersById[captain.player2] || null,
+    player3: playersById[captain.player3] || null,
+    country: {
+    name: captain.country,
+    flag: captain.flag
+  }
+  }));
+
+  setCaptains(enrichedCaptains);
   }, [googleCaptains]);
 
   // вычисляем количество свободных игроков
@@ -38,7 +59,7 @@ const App = () => {
     }}>
       {selectedCaptain === null ? (
         <CaptainsBoard
-          captains={captains}
+          captains={[...captains].sort((a, b) => a.number - b.number)}
           onCaptainClick={captain => {
             setSelectedCaptain(captain);
             setDraftCountry(captain.country);

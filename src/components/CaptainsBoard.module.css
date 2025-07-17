@@ -52,15 +52,11 @@
 }
 
 .captainCardFlying {
-  z-index: 1000;
-  pointer-events: none;
-  position: absolute;
-  animation: fly-captain-gather 2.5s cubic-bezier(0.4, 1.6, 0.4, 1),
-    fly-captain-spread 2.5s 2.5s cubic-bezier(0.4, 1.6, 0.4, 1);
-  --gather-x: 0px;
-  --gather-y: 0px;
-  --spread-x: 0px;
-  --spread-y: 0px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  backface-visibility: hidden;
+  will-change: transform;
+  transition: transform 700ms ease-in-out;
 }
 
 @keyframes fly-captain-gather {
@@ -131,6 +127,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
 }
 
 .captainPhoto {
@@ -139,6 +136,7 @@
   object-fit: cover;
   border-radius: 14px;
   display: block;
+  object-position: top; /* вот эта строка ключевая */
 }
 
 .captainStats {

@@ -4,8 +4,9 @@
   top: 0;
   left: 0;
   z-index: 210;
-  padding: 12px 0 0 32px;
-  box-shadow: 0 2px 8px 0 rgba(35,33,54,0.08);
+  padding: 0px 0 0 32px;
+  box-shadow: 0 2px 8px 0 rgba(35,33,54,1.08);
+  background-color: #060a26;
 }
 
 .captainRow {
@@ -17,11 +18,11 @@
   margin-bottom: 40px;
   gap: 32px;
   position: fixed;
-  top: 56px; /* сдвиг вниз на высоту кнопки */
+  top: 0px; /* сдвиг вниз на высоту кнопки */
   z-index: 200;
   /* backdrop-filter: blur(8px) saturate(120%); */
   background: #060a26; /* делаем фон полностью непрозрачным */
-  padding: 16px 0 16px 32px;
+  padding: 60px 0 16px 32px;
   box-shadow: 0 2px 16px 0 rgba(35,33,54,0.92);
   overflow-x: auto;
   overflow-y: visible;

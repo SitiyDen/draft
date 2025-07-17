@@ -95,16 +95,36 @@ const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = 
   };
 
   // Удалить игрока из команды
-  const handleRemoveFromTeam = (idx) => {
-    setCaptains(prev => prev.map(c => {
+const handleRemoveFromTeam = (idx) => {
+  setCaptains(prev => {
+    return prev.map(c => {
       if (c.name !== captainName) return c;
       const updated = { ...c };
       if (idx === 0) updated.player1 = null;
       if (idx === 1) updated.player2 = null;
       if (idx === 2) updated.player3 = null;
+
+      // Обновим Google Таблицу
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbxJO4Gx5HRrnb4d_fJXzT9PV1WKZMpMqKH9-ln8oRxR7BdlHxPcCfu_WDHuR2rOA2US/exec';
+      const formData = new FormData();
+      formData.append('action', 'addPlayer'); 
+      formData.append('captain', updated.name);
+      formData.append('player1', updated.player1?.gomafiaId || '');
+      formData.append('player2', updated.player2?.gomafiaId || '');
+      formData.append('player3', updated.player3?.gomafiaId || '');
+
+      fetch(scriptUrl, {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.text())
+        .then(console.log)
+        .catch(console.error);
+
       return updated;
-    }));
-  };
+    });
+  });
+};
 
   // Доступные игроки
   const taken = captains.flatMap(c => [c.player1, c.player2, c.player3].filter(Boolean).map(p => p.name));
@@ -151,14 +171,45 @@ const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = 
         </div>
         <div className={styles.countryCardWrapper}>
           <CountrySelect
-            value={captainCountry}
-            onChange={setCaptainCountry}
-            exclude={
-              captains
-                .filter(c => c.name !== captainName && c.country)
-                .map(c => c.country.name)
-            }
-          />
+  value={captainCountry}
+  onChange={(newCountry) => {
+    setCaptainCountry(newCountry);
+
+    // Обновляем список капитанов с новой страной
+    setCaptains(prev => {
+      return prev.map(c => {
+        if (c.name !== captainName) return c;
+        const updated = { ...c, country: newCountry };
+
+        // --- Отправка в Google Таблицу ---
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxJO4Gx5HRrnb4d_fJXzT9PV1WKZMpMqKH9-ln8oRxR7BdlHxPcCfu_WDHuR2rOA2US/exec';
+        const formData = new FormData();
+        formData.append('action', 'addPlayer'); 
+        formData.append('captain', updated.name);
+        formData.append('player1', updated.player1?.gomafiaId || '');
+        formData.append('player2', updated.player2?.gomafiaId || '');
+        formData.append('player3', updated.player3?.gomafiaId || '');
+        formData.append('country', updated.country?.name || '');
+        formData.append('flag', updated.country?.flag || '');
+
+        fetch(scriptUrl, {
+          method: 'POST',
+          body: formData
+        })
+          .then(res => res.text())
+          .then(console.log)
+          .catch(console.error);
+
+        return updated;
+      });
+    });
+  }}
+  exclude={
+    captains
+      .filter(c => c.name !== captainName && c.country)
+      .map(c => c.country.name)
+  }
+/>
         </div>
       </div>
 
@@ -211,12 +262,13 @@ const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = 
                 handleAddToTeam(selectedPlayer);
                 setSelectedPlayer(null);
                 // --- Google Apps Script интеграция через FormData (в фоне) ---
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbzYe4jo_jfbZ9YGLH5qWmRwxLXZ2dAxxmtf6CK9UJV7nzlr8_seTSk36kUDCU1IVJWd/exec';
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbxJO4Gx5HRrnb4d_fJXzT9PV1WKZMpMqKH9-ln8oRxR7BdlHxPcCfu_WDHuR2rOA2US/exec';
                 const formData = new FormData();
+                formData.append('action', 'addPlayer'); 
                 formData.append('captain', updatedCaptain.name);
-                formData.append('player1', updatedCaptain.player1?.name || '');
-                formData.append('player2', updatedCaptain.player2?.name || '');
-                formData.append('player3', updatedCaptain.player3?.name || '');
+                formData.append('player1', updatedCaptain.player1?.gomafiaId || '');
+                formData.append('player2', updatedCaptain.player2?.gomafiaId || '');
+                formData.append('player3', updatedCaptain.player3?.gomafiaId || '');
                 fetch(scriptUrl, {
                   method: 'POST',
                   body: formData

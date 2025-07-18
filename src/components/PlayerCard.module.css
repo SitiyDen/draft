@@ -166,10 +166,20 @@
   max-width: 99vw;
   min-width: 380px;
   box-sizing: border-box;
-  border: 4px solid #a259f7;
+  border: 2px solid #a259f7;
   position: relative;
   z-index: 10001;
   gap: 0;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 20%;
+  position: fixed;      /* фиксируем относительно окна */
+  top: 10px;            /* отступ сверху */
+  right: 10px;           /* отступ слева */
+  z-index: 1000;        /* чтобы лого было поверх других элементов */
 }
 
 .closeBtn {
@@ -282,4 +292,36 @@
 
 .selectBtn:hover {
   background: #7c3aed;
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    width: 40vw;         /* шире чем 20vw, но на мобилке это выглядит компактнее */
+    min-width: 140px;
+    max-width: 180px;
+    padding: 20px 12px 18px 12px;
+  }
+
+  .photo {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 10px;
+  }
+
+  .name {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+
+  .stats {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .eloBadge, .ggBadge {
+    min-width: auto;
+    max-width: 80px;
+    font-size: 0.95em;
+    padding: 4px 8px;
+  }
 }

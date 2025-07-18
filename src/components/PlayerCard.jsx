@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styles from './PlayerCard.module.css';
 
-const PlayerCard = ({ photoUrl, name, elo, gg, points, country, bio, large, onSelect, winrate, gamesPlayed, bonus, onClose }) => {
+const PlayerCard = ({ photoUrl, name, elo, gg, points, country, bio, large, onSelect, winrate, gamesPlayed, bonus, onClose, isAuthenticated }) => {
   const ggValue = gg !== undefined ? gg : points;
   if (large) {
     return (
       <div className={styles.cardLarge}>
+        
         <button className={styles.closeBtn} onClick={onClose} title="Закрыть">×</button>
         <div className={styles.nameLarge}>{name}</div>
         <div className={styles.largeContentRow}>
@@ -27,7 +28,7 @@ const PlayerCard = ({ photoUrl, name, elo, gg, points, country, bio, large, onSe
         </div>
         {bio && <div className={styles.bio}>{bio}</div>}
         {onSelect && (
-          <button className={styles.selectBtn} onClick={onSelect}>Выбрать</button>
+          <button className={styles.selectBtn} style={{ display: isAuthenticated ? 'block' : 'none' }} onClick={onSelect}>Выбрать</button>
         )}
       </div>
     );

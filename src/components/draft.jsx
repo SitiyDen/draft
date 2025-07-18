@@ -3,8 +3,9 @@ import { createPortal } from 'react-dom';
 import styles from './draft.module.css';
 import PlayerCard from './PlayerCard';
 import CountrySelect from './CountrySelect';
+import logoImg from '../logo512.png'; 
 
-const PlayerProfile = ({ photoUrl, name, elo, gg, country, bio, onBack }) => (
+const PlayerProfile = ({ photoUrl, name, elo, gg, country, bio, onBack, isAuthenticated }) => (
   <div className={styles.profilePage}>
     <div className={styles.content}>
       <div className={styles.sideCard}>
@@ -14,6 +15,7 @@ const PlayerProfile = ({ photoUrl, name, elo, gg, country, bio, onBack }) => (
           elo={elo}
           gg={gg}
           country={country}
+          isAuthenticated={isAuthenticated}
         />
       </div>
     </div>
@@ -39,6 +41,7 @@ const TeamStats = ({ team, captainElo, captainGg }) => {
   const maxElo = 3000;
   const maxGG = 300;
   return (
+    
     <div className={styles.teamStats}>
       <h4>Итоговые показатели</h4>
       
@@ -71,7 +74,7 @@ const TeamStats = ({ team, captainElo, captainGg }) => {
 };
 
 // --- Новый основной компонент draft ---
-const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = [], onBack, captainCountry, setCaptainCountry, captains, setCaptains }) => {
+const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = [], onBack, captainCountry, setCaptainCountry, captains, setCaptains, isAuthenticated }) => {
   const captain = captains.find(c => c.name === captainName) || {};
   const [sortType, setSortType] = useState('default');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -140,6 +143,8 @@ const handleRemoveFromTeam = (idx) => {
 
   return (
     <div className={styles.draftBoard}>
+
+      <img src={logoImg} alt="Logo" className={styles.logo} />
       
       <div className={styles.backBtnRow}>
         <button className={styles.backBtn} onClick={onBack}>
@@ -156,11 +161,19 @@ const handleRemoveFromTeam = (idx) => {
               {team[i] ? (
                 <div className={styles.teamPlayerWrapper} onClick={() => setSelectedPlayer(team[i])} style={{ cursor: 'pointer' }}>
                   <PlayerCard {...team[i]} gg={team[i].gg} />
+                  {isAuthenticated ? (
+                    <div>
                   <button
                     className={styles.removePlayerBtn}
                     onClick={e => { e.stopPropagation(); handleRemoveFromTeam(i); }}
                     title="Убрать из команды"
                   >×</button>
+                  </div>
+                   ) : (
+        <div>
+       
+        </div>
+      )}
                 </div>
               ) : <EmptyCard />}
             </div>
@@ -170,6 +183,8 @@ const handleRemoveFromTeam = (idx) => {
           <TeamStats team={team} captainElo={captainElo} captainGg={captainGg} />
         </div>
         <div className={styles.countryCardWrapper}>
+          {isAuthenticated ? (
+                    
           <CountrySelect
   value={captainCountry}
   onChange={(newCountry) => {
@@ -210,11 +225,17 @@ const handleRemoveFromTeam = (idx) => {
       .map(c => c.country.name)
   }
 />
+ ) : (
+        <div>
+       
+        </div>
+      )}
         </div>
       </div>
 
       
       <div className={styles.playersSection}>
+        
         <h3 className={styles.listTitle}>
           Доступные игроки
           <span className={styles.freeCount}> ({availablePlayers.length})</span>
@@ -278,6 +299,7 @@ const handleRemoveFromTeam = (idx) => {
                   .catch(console.error);
               }}
               onClose={() => setSelectedPlayer(null)}
+              isAuthenticated={isAuthenticated}
             />
           </div>
         </div>,

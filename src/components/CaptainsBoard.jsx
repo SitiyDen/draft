@@ -78,7 +78,7 @@ const shuffleArray = (arr) => {
   return newArr;
 };
 
-const CaptainsBoard = ({ captains: initialCaptains, onCaptainClick, freePlayersCount }) => {
+const CaptainsBoard = ({ captains: initialCaptains, onCaptainClick, freePlayersCount, isAuthenticated }) => {
   const boardRef = useRef(null);
   const flyingLayerRef = useRef(null);
 const [captains, setCaptains] = useState(() =>
@@ -209,7 +209,16 @@ useEffect(() => {
   return (
     <div style={{ position: 'relative' }}>
       <img src={logo512} alt="Logo" className={styles.logoTopLeft} />
-      <CommandPanel onShuffle={handleShuffle} freePlayersCount={freePlayersCount} />
+      {isAuthenticated ? (
+        <div>
+          <CommandPanel onShuffle={handleShuffle} freePlayersCount={freePlayersCount} />
+        </div>
+      ) : (
+        <div>
+       <p>.</p>
+        </div>
+      )}
+      
       <div className={styles.captainsBoard} ref={boardRef}>
         {captains.map((captain, idx) => (
           <CaptainCard
@@ -217,6 +226,7 @@ useEffect(() => {
             captain={captain}
             onClick={() => handleCardClick(captain, idx)}
             isFlipped={flippedIdx === idx}
+            isAuthenticated={isAuthenticated}
           />
         ))}
       </div>

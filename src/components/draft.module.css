@@ -9,6 +9,16 @@
   background-color: #060a26;
 }
 
+.logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 20%;
+  position: fixed;      /* фиксируем относительно окна */
+  top: 10px;            /* отступ сверху */
+  right: 10px;           /* отступ слева */
+  z-index: 1000;        /* чтобы лого было поверх других элементов */
+}
+
 .captainRow {
   display: flex;
   flex-direction: row;
@@ -35,7 +45,7 @@
   width: 100vw;
   min-height: 100vh;
   
-  padding: 60px 0 0 32px; /* увеличен отступ сверху: 56px кнопка + 32px капитаны */
+  padding: 0px 0 0 32px; /* увеличен отступ сверху: 56px кнопка + 32px капитаны */
   box-sizing: border-box;
   overflow-x: hidden !important;
   overflow-y: visible !important;
@@ -208,7 +218,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 32px 28px;
-  width: 100%;
+  width: 98%;
   align-items: stretch;
   justify-items: center;
   margin-top: 12px;
@@ -389,4 +399,44 @@
 .removePlayerBtn:hover {
   background: #ff4d4f;
   color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+  .countryCardWrapper,
+  .emptyCard {
+    min-width: 50px;
+    max-width: 50px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .teamStats,
+  .teamStatsWrapper {
+    min-width: 50px;
+    max-width: 50px;
+    margin-left: 12px;
+  }
+
+  .captainRow {
+    gap: 12px;
+    padding: 60px 0 12px 12px;
+  }
+
+  .playerList {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px 16px;
+  }
+
+  .backBtn {
+    font-size: 1rem;
+    left: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media screen and (max-width: 932px) and (orientation: landscape) {
+  .playerList {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px 12px;
+  }
 }

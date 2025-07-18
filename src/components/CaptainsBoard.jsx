@@ -81,13 +81,17 @@ const shuffleArray = (arr) => {
 const CaptainsBoard = ({ captains: initialCaptains, onCaptainClick, freePlayersCount }) => {
   const boardRef = useRef(null);
   const flyingLayerRef = useRef(null);
-  const [captains, setCaptains] = useState(initialCaptains);
+const [captains, setCaptains] = useState(() =>
+  Array.isArray(initialCaptains) ? initialCaptains : []
+);
   const [flippedIdx, setFlippedIdx] = useState(null);
   const [isShuffling, setIsShuffling] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
+  if (Array.isArray(initialCaptains) && initialCaptains.length > 0) {
     setCaptains(initialCaptains);
-  }, [initialCaptains]);
+  }
+}, [initialCaptains]);
 
   const handleCardClick = (captain, idx) => {
     setFlippedIdx(idx);

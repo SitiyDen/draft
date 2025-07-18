@@ -5,14 +5,24 @@ import { useGoogleSheetData } from './components/playersGoogle';
 
 
 const App = () => {
+
+   const [isAuthenticated, setIsAuthenticated] = useState(false);
+   const [input, setInput] = useState('');
+   const correctPassword = '1205';
+
+   const handleLogin = () => {
+    if (input === correctPassword) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Неверный пароль');
+    }
+  };
+
   const { data: googleCaptains = [], loading: loadingP, error: errorP } = useGoogleSheetData(true);
   const { data: players = [], loading: loadingPP, error: errorPP } = useGoogleSheetData(false);
 
   // Используем только один массив капитанов
   const [captains, setCaptains] = useState([]);
-
-    console.log("📥 Загружены капитаны из Google:", googleCaptains);
-  console.log("📥 Загружены игроки из Google:", players);
 
   const [selectedCaptain, setSelectedCaptain] = useState(null);
   const [shuffleAnimation, setShuffleAnimation] = useState(false);
@@ -47,6 +57,9 @@ const App = () => {
   const freePlayersCount = players.filter(p => !takenNames.includes(p.name)).length;
 
   return (
+
+      
+
     <div style={{
       display: 'flex',
       flexDirection: 'column',
@@ -57,6 +70,23 @@ const App = () => {
       minHeight: '100vh',
       overflowX: 'hidden'
     }}>
+       
+        <div>
+      {!isAuthenticated ? (
+        <div>
+          <input
+            type="password"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Введите пароль"
+          />
+          <button onClick={handleLogin}>Войти</button>
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </div>
+       
       {selectedCaptain === null ? (
         <CaptainsBoard
           captains={[...captains].sort((a, b) => a.number - b.number)}
@@ -69,6 +99,7 @@ const App = () => {
           shuffleOrder={shuffleOrder}
           boardRef={boardRef}
           freePlayersCount={freePlayersCount}
+          isAuthenticated={isAuthenticated}
         />
       ) : (
         <Draft
@@ -85,10 +116,14 @@ const App = () => {
             setCaptains(prev => prev.map(c => c.name === selectedCaptain.name ? { ...c, country } : c));
           }}
           captains={captains}
+          isAuthenticated={isAuthenticated}
         />
       )}
     </div>
+    
   );
+
+  
 };
 
 export default App;

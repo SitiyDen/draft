@@ -27,7 +27,7 @@ const useGoogleSheetData = (isCaptain) => {
           // Приведение elo и gg к числу
           const normalizedData = parsedData.map(item => ({
             ...item,
-            elo: item.elo !== undefined ? Number(item.elo) : undefined,
+           elo: item.elo !== undefined ? parseInt(item.elo, 10) : undefined,
             gg: item.gg !== undefined ? Number(item.gg) : (item.points !== undefined ? Number(item.points) : undefined)
           }));
           // Фильтруем только тех, у кого заполнено name

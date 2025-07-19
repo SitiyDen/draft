@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './draft.module.css';
 import PlayerCard from './PlayerCard';
@@ -79,6 +79,7 @@ const Draft = ({ captainName, captainElo, captainGg, captainPhotoUrl, players = 
   const [sortType, setSortType] = useState('default');
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [showCaptainModal, setShowCaptainModal] = useState(false);
+   const audioRef = useRef(null);
 
   // Получаем команду капитана
   const team = [captain.player1 || null, captain.player2 || null, captain.player3 || null];
@@ -133,6 +134,13 @@ const handleRemoveFromTeam = (idx) => {
   const taken = captains.flatMap(c => [c.player1, c.player2, c.player3].filter(Boolean).map(p => p.name));
   const availablePlayers = players.filter(p => !taken.includes(p.name));
 
+  const playClickSound = () => {
+  if (audioRef.current) {
+    audioRef.current.currentTime = 0;
+    audioRef.current.play();
+  }
+};
+
   // Сортировка
   const sortedPlayers = [...availablePlayers].sort((a, b) => {
     if (sortType === 'name') return a.name.localeCompare(b.name, 'ru');
@@ -144,6 +152,7 @@ const handleRemoveFromTeam = (idx) => {
   return (
     <div className={styles.draftBoard}>
 
+<audio ref={audioRef} src="/click.wav" preload="auto" />
       <img src={logoImg} alt="Logo" className={styles.logo} />
       
       <div className={styles.backBtnRow}>
@@ -251,7 +260,10 @@ const handleRemoveFromTeam = (idx) => {
             <div
               key={idx}
               className={styles.playerWrapper}
-              onClick={() => setSelectedPlayer(player)}
+              onClick={() => {
+                setSelectedPlayer(player);
+                playClickSound();
+              }}
               style={{ cursor: 'pointer' }}
             >
               <PlayerCard
@@ -280,6 +292,7 @@ const handleRemoveFromTeam = (idx) => {
                 else if (!updatedCaptain.player2) updatedCaptain.player2 = selectedPlayer;
                 else if (!updatedCaptain.player3) updatedCaptain.player3 = selectedPlayer;
                 // Сначала обновляем состояние (UI мгновенно)
+                
                 handleAddToTeam(selectedPlayer);
                 setSelectedPlayer(null);
                 // --- Google Apps Script интеграция через FormData (в фоне) ---
@@ -308,6 +321,7 @@ const handleRemoveFromTeam = (idx) => {
       {showCaptainModal && createPortal(
         <div className={styles.playerModalOverlay} onClick={() => setShowCaptainModal(false)}>
           <div className={styles.playerModal} onClick={e => e.stopPropagation()}>
+            playClickSound();
             <PlayerCard
               {...captain}
               gg={captainGg}

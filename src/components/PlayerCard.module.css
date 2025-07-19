@@ -14,6 +14,21 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.flashOverlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 20%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform-origin: center;
+  z-index: 1000;
+  /* Центрируем по середине экрана */
+  transform: translate(-50%, -50%);
+}
+
 .card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 32px rgba(35, 33, 54, 0.45);
@@ -48,7 +63,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 2px;
   margin-bottom: 0;
 }
 

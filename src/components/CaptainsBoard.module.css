@@ -141,7 +141,7 @@
   object-fit: cover;
   border-radius: 14px;
   display: block;
-  object-position: top; /* вот эта строка ключевая */
+  object-position: 10% 20%;
 }
 
 .captainStats {

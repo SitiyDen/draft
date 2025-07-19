@@ -11,7 +11,8 @@ const useGoogleSheetData = (isCaptain) => {
       const apiKey = "AIzaSyCNbP_V9dSJzxX-UdjS-0SuRdhBIVC_HFI";
       const sheetId = "1tHZdAG6FOlE03Dms1qg5SV1ygBQ3xwaCFkH9b__GB9Y"; 
       const sheetName = "Лист1";  
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}&_=${Date.now()}`;
+
       try {
         const response = await fetch(url);
         const result = await response.json();
@@ -49,7 +50,7 @@ const useGoogleSheetData = (isCaptain) => {
     };
 
     fetchData();
-  }, []);
+  }, [isCaptain]);
   {console.log('data:', data)}
   console.log('тип:', typeof data)
   return { data, loading, error };

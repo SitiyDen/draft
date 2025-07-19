@@ -32,29 +32,38 @@ const App = () => {
 
   // Синхронизация googleCaptains -> captains при загрузке
   React.useEffect(() => {
-     if (!googleCaptains.length || !players.length) return;
+  if (!googleCaptains.length || !players.length) return;
 
-  // Создаём словарь: gomafiaId => игрок
   const playersById = Object.fromEntries(players.map(p => [p.gomafiaId, p]));
 
-  // Обогащаем капитанов объектами игроков по ID
   const enrichedCaptains = googleCaptains.map(captain => ({
     ...captain,
     player1: playersById[captain.player1] || null,
     player2: playersById[captain.player2] || null,
     player3: playersById[captain.player3] || null,
     country: {
-    name: captain.country,
-    flag: captain.flag
-  }
+      name: captain.country,
+      flag: captain.flag
+    }
   }));
 
+  
+
   setCaptains(enrichedCaptains);
-  }, [googleCaptains]);
+}, [googleCaptains, players]);
 
   // вычисляем количество свободных игроков
   const takenNames = captains.flatMap(c => [c.player1, c.player2, c.player3].filter(Boolean).map(p => p.name));
   const freePlayersCount = players.filter(p => !takenNames.includes(p.name)).length;
+
+ // Проверки загрузки и ошибок — здесь, в теле компонента
+  if (loadingP || loadingPP) {
+    return <p>Загрузка данных...</p>;
+  }
+
+  if (errorP || errorPP) {
+    return <p>Ошибка загрузки: {errorP || errorPP}</p>;
+  }
 
   return (
 
